@@ -43,7 +43,7 @@ class Dev(Configuration):
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = 'django-insecure-+sn%dpa!086+g+%44z9*^j^q-u4n!j(#wl)x9a%_1op@zz2+1-'
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+    DEBUG = values.BooleanValue(True)
 
     ALLOWED_HOSTS = []
     # other settings truncated for brevity
@@ -59,9 +59,11 @@ class Dev(Configuration):
         'blog',
         "crispy_forms",
         "crispy_bootstrap5",
+        "debug_toolbar",
     ]
 
     MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -72,6 +74,7 @@ class Dev(Configuration):
     ]
 
     ROOT_URLCONF = 'blango.urls'
+    
 
     TEMPLATES = [
         {
@@ -136,7 +139,8 @@ class Dev(Configuration):
 
     USE_TZ = True
 
-
+    
+    INTERNAL_IPS = values.ListValue(['127.0.0.1'])
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -187,7 +191,21 @@ class Dev(Configuration):
 
     STATIC_URL = '/static/'
 
+    # import mimetypes
+    # mimetypes.add_type("application/javascript", ".js", True)
+    # DEBUG_TOOLBAR_CONFIG = {
+    #     'INTERCEPT_REDIRECTS': False,
+    # }
+
     # Default primary key field type
     # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
     DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+    # if DEBUG:
+    #     import mimetypes
+    #     mimetypes.add_type("application/javascript", ".js", True)
+
+class Prod(Dev):
+    DEBUG = values.BooleanValue(False)
+    SECRET_KEY = values.SecretValue()
