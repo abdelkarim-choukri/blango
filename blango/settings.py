@@ -60,6 +60,7 @@ class Dev(Configuration):
         "crispy_forms",
         "crispy_bootstrap5",
         "debug_toolbar",
+        "blango_auth",
     ]
 
     MIDDLEWARE = [
@@ -141,6 +142,8 @@ class Dev(Configuration):
 
     
     INTERNAL_IPS = values.ListValue(['127.0.0.1'])
+    AUTH_USER_MODEL = "blango_auth.User"
+    
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
