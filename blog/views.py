@@ -5,6 +5,7 @@ from blog.models import Post
 from blog.forms import CommentForm
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
+from django.urls import reverse
 # Create your views here.
 logger = logging.getLogger(__name__)
 
@@ -35,4 +36,6 @@ def post_detail(request, slug):
     return render(request, "blog/post-detail.html", {"post": post,"comment_form": comment_form})
 
 def post_table(request):
-    return render(request, "blog/post-table.html")
+    return render(
+        request, "blog/post-table.html", {"post_list_url": reverse("post-list")}
+    )
